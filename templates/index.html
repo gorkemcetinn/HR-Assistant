@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Assistant</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Chart.js kütüphanesini ekleyin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="../static/ist.jpg" class="user-avatar">
+                <h2>AI Assistant</h2>
+            </div>
+            <div class="sidebar-menu">
+                <div class="menu-item active" id="sql-assistant">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>SQL Asistanı</span>
+                </div>
+                <div class="menu-item" id="document-assistant">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Döküman Asistanı</span>
+                </div>
+                <div class="menu-item" id="personnel">
+                    <i class="fas fa-users"></i>
+                    <span>Personel</span>
+                </div>
+                <div class="menu-item" id="functions">
+                    <i class="fas fa-cogs"></i>
+                    <span>Tools</span>
+                </div>
+            </div>
+            <div class="model-selector-container">
+                <p class="model-label">AI Modeli</p>
+                <select id="model-selector" class="model-selector">
+                    <option value="models/gemini-2.0-flash">Gemini 2.0 Flash</option>
+                    <option value="models/gemini-2.5-pro-exp-03-25"> Gemini 2.5 Pro</option>
+                    <option value="models/gemini-2.0-flash-lite">Gemini 2.0 Flash Lite</option>
+                    <option value="models/gemini-2.5-pro-preview-03-25">Gemini 2.5 Pro Preview</option>
+                    <option value="models/gemini-1.5-pro-002">Gemini 1.5 Pro </option>
+                    <option value="models/gemini-1.5-pro-latest">Gemini 1.5 Pro Latest</option>
+                    <option value="google/gemini-2.0-flash-thinking-exp:free">Gemini 2.0 Flash Thinking</option>
+                    <option value="google/gemini-2.0-pro-exp-02-05:free">Gemini 2.0 Pro</option>
+                    <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="page-title">
+                    <h1>SQL Asistanı</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="new-chat-btn">
+                        <i class="fas fa-plus"></i> Yeni Sohbet
+                    </button>
+     <div class="visual-selector">
+        <button class="visual-selector-button" id="visual-selector-button">
+            <div class="icon-image">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <span>Açıklama Seçeneği</span>
+            <span style="margin-left: auto;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+            </span>
+        </button>
+        <div class="visual-selector-dropdown" id="visual-selector-dropdown">
+            <div class="visual-option" id="normal-option">
+                <input type="radio" id="normal_mode" name="visual-mode" value="normal_mode" checked>
+                <div class="visual-option-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="visual-option-label">Normal Cevap</div>
+            </div>
+            <div class="visual-option" id="text-only-option">
+                <input type="radio" id="text_only" name="visual-mode" value="text_only">
+                <div class="visual-option-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="visual-option-label">Sadece Açıklama</div>
+            </div>
+
+        </div>
+    </div>
+
+
+                    <div class="user-profile" id="user-profile-dropdown">
+                        <img src="../static/iga.png" alt="kullanıcı" class="user-avatar">
+                        <span id="username">{{ session.get("fullname", "Kullanıcı") }}</span>
+                        <i class="fas fa-chevron-down"></i>
+                        <div class="dropdown-menu" id="user-dropdown">
+                            <div class="dropdown-divider"></div>
+                            <a href="/logout" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message agent-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">SQL Asistanı</span>
+                                <span class="message-time" id="current-time">Bugün, 14:30</span>
+                            </div>
+                            <div class="message-text">
+                                Merhaba! SQL sorguları konusunda size nasıl yardımcı olabilirim?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loader" id="loader">
+                    <div class="loader-dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-container">
+                        <input type="text" id="user-input" placeholder="Sorunuzu yazın..." autocomplete="off">
+                        <div class="input-actions">
+                            <button class="action-btn">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <button id="send-button" class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-suggestions">
+                        <div class="suggestion-chip">Kendi bilgilerimi görmek istiyorum</div>
+                        <div class="suggestion-chip">Bütün çalışanları tablola</div>
+                        <div class="suggestion-chip">Yeni kişi nasıl eklerim ?</div>
+                        <div class="suggestion-chip">Çalışan silme işlemini nasıl yaparım ?</div>
+                        <div class="suggestion-chip">Şirketteki ortalama maaş ücreti ne kadar ?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="personnel-section" style="display: none; padding: 20px;">
+                <div class="personnel-header">
+                    <h2>Personel Listesi</h2>
+                    <div class="personnel-actions">
+                        <div class="search-container">
+                            <input type="text" id="personnel-search" placeholder="Ara...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="personnel-table" class="personnel-table">
+                        <thead>
+                            <tr>
+                                <th><div class="th-content"><span>Kullanıcı Adı</span></div></th>
+                                <th><div class="th-content"><span>İsim Soyisim</span></div></th>
+                                <th><div class="th-content"><span>Email</span></div></th>
+                                <th><div class="th-content"><span>Maaş</span></div></th>
+                                <th><div class="th-content"><span>Departman</span></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Personel verileri dinamik olarak buraya eklenecek -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+<!-- Fonksiyonlar Bölümü için Güncellenmiş HTML -->
+<div id="functions-section" style="display: none; padding: 20px;">
+    <div class="personnel-header">
+        <h2>Kullanılabilir Araçlarım</h2>
+        <div class="personnel-actions">
+            <div class="search-container">
+                <input type="text" id="function-search" placeholder="Ara...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bilgilendirme kutusu -->
+    <div class="function-info-banner">
+        <i class="fas fa-info-circle"></i> Bu bölümde size atanmış fonksiyonlar ve araçlar listelenmektedir.
+    </div>
+
+    <div class="table-container">
+        <table id="functions-table" class="personnel-table">
+            <thead>
+                <tr>
+                    <th><div class="th-content"><span>ID</span></div></th>
+                    <th><div class="th-content"><span>Fonksiyon Adı</span></div></th>
+                    <th><div class="th-content"><span>Açıklama</span></div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fonksiyon verileri dinamik olarak buraya eklenecek -->
+                <tr>
+                    <td colspan="3" class="loading-message">
+                        <i class="fas fa-spinner fa-spin"></i> Araçlar yükleniyor...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+        </div>
+             <!--
+<div class="powered-by">
+            Powered By <span class="powered-by-highlight">IST SYSTEM</span>
+        </div>
+        -->
+
+    </div>
+
+    <script src="../static/script.js"></script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userProfileDropdown = document.getElementById('user-profile-dropdown');
+            const userDropdown = document.getElementById('user-dropdown');
+            const sqlAssistant = document.getElementById('sql-assistant');
+            const documentAssistant = document.getElementById('document-assistant');
+            const personnel = document.getElementById('personnel');
+            const functions = document.getElementById('functions');
+            const button = document.getElementById('visual-selector-button');
+            const dropdown = document.getElementById('visual-selector-dropdown');
+            const normalOption = document.getElementById('normal-option');
+            const textOnlyOption = document.getElementById('text-only-option');
+            const normalModeRadio = document.getElementById('normal_mode');
+            const textOnlyRadio = document.getElementById('text_only');
+
+            button.addEventListener('click', function() {
+                dropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking outside
+            window.addEventListener('click', function(event) {
+                if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+
+            // Handle option selection
+            normalOption.addEventListener('click', function() {
+                if (document.body.classList.contains('dark-theme')) {
+                    normalOption.style.color = 'var(--text-color)';
+                    textOnlyOption.style.color = 'var(--text-color)';
+                }
+                normalModeRadio.checked = true;
+                textOnlyRadio.checked = false;
+                dropdown.classList.remove('show');
+                button.querySelector('span').textContent = "Normal Cevap";
+            });
+
+            textOnlyOption.addEventListener('click', function() {
+                textOnlyRadio.checked = true;
+                normalModeRadio.checked = false;
+                dropdown.classList.remove('show');
+                button.querySelector('span').textContent = "Sadece Açıklama";
+            });
+
+            const userRoles = {{ session.get('roles', []) | tojson }};
+            if (!userRoles.includes('admin') && !userRoles.includes('manager')) {
+                personnel.style.display = 'none';
+                functions.style.display = 'none';
+            }
+
+            function updateCurrentTime() {
+                const now = new Date();
+                const options = { hour: '2-digit', minute: '2-digit' };
+                const timeString = 'Bugün, ' + now.toLocaleTimeString('tr-TR', options);
+                document.getElementById('current-time').textContent = timeString;
+            }
+
+            updateCurrentTime();
+
+            function setActiveMenuItem(item) {
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+            }
+
+            sqlAssistant.addEventListener('click', function () {
+                setActiveMenuItem(sqlAssistant);
+                showSection('chat-section');
+                // SQL Asistanı için görsel seçici gizlensin
+                document.querySelector('.visual-selector').style.display = 'none';
+            });
+
+            documentAssistant.addEventListener('click', function () {
+                setActiveMenuItem(documentAssistant);
+                showSection('chat-section');
+                // Döküman Asistanı için görsel seçici gösterilsin
+                document.querySelector('.visual-selector').style.display = 'flex';
+            });
+
+            personnel.addEventListener('click', function () {
+                setActiveMenuItem(personnel);
+                showSection('personnel-section');
+                loadPersonnelTable();
+            });
+
+            functions.addEventListener('click', function () {
+                setActiveMenuItem(functions);
+                showSection('functions-section');
+                loadFunctionsTable();
+            });
+
+            userProfileDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function () {
+                userDropdown.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>

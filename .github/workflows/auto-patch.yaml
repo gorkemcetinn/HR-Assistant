@@ -1,0 +1,66 @@
+name: Auto Patch Docker Image and Update ArgoCD
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'k8s/flask-deployment.yaml'  # Otomatik güncellemelerde tetiklenmesin
+
+env:
+  IMAGE_NAME: flask-agent
+  DOCKER_REPO: cankumet
+  BASE_TAG: updatedV2
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kodları al
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false  # ← Bu kritik satır
+
+    - name: DockerHub'a giriş yap
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Son kullanılan image versiyonunu bul
+      id: version
+      run: |
+        EXISTING_TAGS=$(curl -s https://hub.docker.com/v2/repositories/${{ env.DOCKER_REPO }}/${{ env.IMAGE_NAME }}/tags/ | jq -r '.results[].name' | grep patchedv || echo "")
+        if [[ -z "$EXISTING_TAGS" ]]; then
+          NEXT_TAG=patchedv1
+        else
+          LAST_NUM=$(echo "$EXISTING_TAGS" | sed 's/[^0-9]//g' | sort -nr | head -n1)
+          NEXT_NUM=$((LAST_NUM + 1))
+          NEXT_TAG=patchedv${NEXT_NUM}
+        fi
+        echo "next_tag=$NEXT_TAG" >> $GITHUB_OUTPUT
+
+    - name: Dockerfile için tag ayarla
+      run: |
+        echo "BASE_TAG=${{ env.BASE_TAG }}" >> $GITHUB_ENV
+        echo "NEXT_TAG=${{ steps.version.outputs.next_tag }}" >> $GITHUB_ENV
+
+    - name: Yeni image oluştur ve push et
+      run: |
+        docker build --build-arg BASE_TAG=${{ env.BASE_TAG }} -t $DOCKER_REPO/$IMAGE_NAME:${{ env.NEXT_TAG }} .
+        docker push $DOCKER_REPO/$IMAGE_NAME:${{ env.NEXT_TAG }}
+
+    - name: Deployment YAML içindeki image tag’ini güncelle
+      run: |
+        sed -i "s|image: .*|image: $DOCKER_REPO/$IMAGE_NAME:${{ env.NEXT_TAG }}|" k8s/flask-deployment.yaml
+
+    - name: Değişiklikleri commit et ve pushla
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
+        git add k8s/flask-deployment.yaml
+        git commit -m "Update to image ${{ env.NEXT_TAG }}" || echo "No changes commit"
+        git push origin HEAD:master
