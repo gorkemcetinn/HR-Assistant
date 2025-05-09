@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask-container
-          image: gorkem03/flask-agent:patchedv1
+          image: gorkem03/my-flask-app:latest
           ports:
             - containerPort: 5000
           env:
