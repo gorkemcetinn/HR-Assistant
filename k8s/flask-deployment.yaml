@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask-container
-          image: cankumet/flask-agent:patchedv9
+          image: gorkem03/flask-agent:patchedv1
           ports:
             - containerPort: 5000
           env:
@@ -23,7 +23,7 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: DB_NAME
-              value: "HR"
+              value: "HR2"
             - name: DB_USERNAME
               value: "postgres"
             - name: DB_PASSWORD
