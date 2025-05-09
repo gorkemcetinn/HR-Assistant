@@ -1,15 +1,10 @@
-# İlk baz alınacak image açıkça belirtildi
-ARG BASE_TAG=updatedV2
-FROM cankumet/flask-agent:${BASE_TAG}
-
-USER root
-
-# Tüm proje kodlarını yeniden kopyala
-COPY . /app
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Eğer gerekirse requirements kurulabilir
-# RUN pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 CMD ["python", "main.py"]

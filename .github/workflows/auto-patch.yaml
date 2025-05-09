@@ -8,8 +8,8 @@ on:
 
 env:
   IMAGE_NAME: flask-agent
-  DOCKER_REPO: cankumet
-  BASE_TAG: updatedV2
+  DOCKER_REPO: gorkem03
+  BASE_TAG: updatedV1
 
 jobs:
   patch:
