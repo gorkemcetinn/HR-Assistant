@@ -24,11 +24,12 @@ class Config:
         "gemini": "Gemini API"
     }
 
-    DB_HOST = "localhost"
+    DB_HOST = "postgres-service"
     DB_PORT = 5432
     DB_NAME = "HR2"
     DB_USERNAME = "postgres"
     DB_PASSWORD = "123456"
+
 
     # Model Yapılandırması
     AVAILABLE_MODELS = {
