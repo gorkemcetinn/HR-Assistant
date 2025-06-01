@@ -46,7 +46,7 @@ graph TD;
     FlaskApp --> ImageSelector;
     LLMManager --> OpenRouter/Gemini/Qwen;
     RAGSystem --> ChromaDB;
-    ImageSelector --> Google Gemma;
+    ImageSelector --> Google_Gemma;
     GraphAgent --> ChartJS;
 ```
 
