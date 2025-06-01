@@ -91,23 +91,6 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
 
 ---
 
-## 📌 Kullanım
-
-### ✅ Login
-Kullanıcı adı ve şifreyle giriş yapılır, rol doğrulaması yapılır.
-
-### 🗃️ SQL Agent
-Doğal dil ile SQL sorguları oluşturulur ve veritabanına sorgu atılır.
-
-### 📄 Belge Sorgulama (RAG)
-Yüklenen PDF dosyası OCR ile işlenir, vektör veritabanına eklenir ve QA zinciriyle sorgulanır.
-
-### 📊 Grafik Analizi
-Belgeden sayısal veri çıkarılır, uygun grafik tipi belirlenir, JSON formatta veri Chart.js'e iletilir.
-
-### 🖼️ Görsel Analizi
-Sayfa içeriğindeki tablolar/grafikler görsel olarak tespit edilir ve analiz edilebilir.
-
 ---
 
 ## 📁 Dosya Yapısı
@@ -120,26 +103,14 @@ Sayfa içeriğindeki tablolar/grafikler görsel olarak tespit edilir ve analiz e
 ├── read_rag.py             # RAG sistemi
 ├── graph_agent.py          # Grafik destekli analiz
 ├── image_selector.py       # Görsel analiz
-├── kimi_vl_wrapper.py      # Kimi görsel LLM bağlantısı
+├── gemma.py                # gemma görsel LLM bağlantısı
 ├── user_database.py        # Kullanıcı yönetimi
 ├── auth_database.py        # Rol erişim yönetimi
 ├── templates/              # HTML sayfaları
 └── static/images/          # İşlenen görseller
 ```
-
----
-
-## 📬 Katkıda Bulunmak
-Pull request'ler ve issue'lar memnuniyetle karşılanır! Yeni analiz araçları, görsel modeller veya model destekleri eklemek için katkı sunabilirsiniz.
-
----
-
-## 📜 Lisans
-MIT License
-
 ---
 
 ## 🧑‍💻 Geliştirici
 **Görkem [@gorkem03](https://github.com/gorkem03)**
 
-HR süreçlerini yapay zekâ ile birleştiren bu projeyle ilgili geri bildirim ve sorularınız için GitHub üzerinden iletişime geçebilirsiniz.
