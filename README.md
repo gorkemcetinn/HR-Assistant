@@ -110,35 +110,121 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
 └── static/images/          # İşlenen görseller
 ```
 ---
-☸️ Kubernetes Deployment Yapılandırmaları
-Bu proje, Flask backend ve PostgreSQL veritabanı bileşenlerini kapsayan tam bir Kubernetes altyapısıyla dağıtılır. Aşağıda her YAML dosyasının işlevi açıklanmıştır:
 
-flask-deployment.yaml
-Flask tabanlı HR Assistant uygulamasını dağıtan deployment tanımıdır.
+## ⚙️ YAML Konfigürasyonları
 
-Image tag’i CI/CD pipeline tarafından otomatik güncellenir.
+### 📦 1. Dockerfile
+- Kullanılan image: `gorkem03/assistanthr:${BASE_TAG}`
+- Kullanıcı: `root`
+- Proje dizini: `/app`
+- Uygulama giriş komutu: `CMD ["python", "main.py"]`
+- `requirements.txt` kurulumu yorum satırı olarak bırakılmıştır (isteğe bağlı).
 
-Pod replikası, kaynak sınırları gibi ayarlar burada yapılır.
+---
 
-flask-service.yaml
-Flask uygulamasını Kubernetes servis objesi olarak dış dünyaya açar.
+### ☸️ 2. flask-deployment.yaml
+- **Kind**: `Deployment`
+- Uygulama adı: `flask-app`
+- Replica: `1`
+- Container adı: `flask-container`
+- Image: `cankumet/flask-agent:patchedv9`
+- Açık port: `5000`
+- Ortam değişkenleri:
+  - `DB_HOST=postgres-service`
+  - `DB_PORT=5432`
+  - `DB_NAME=HR2`
+  - `DB_USERNAME=postgres`
+  - `DB_PASSWORD=123456`
 
-Genellikle NodePort veya LoadBalancer tipiyle yapılandırılır.
+---
 
-postgres-deployment.yaml
-PostgreSQL veritabanı için deployment tanımıdır.
+### 🌐 3. flask-service.yaml
+- **Kind**: `Service`
+- Servis adı: `flask-service`
+- Tip: `NodePort`
+- Port yönlendirmeleri:
+  - `port: 5000`
+  - `targetPort: 5000`
+  - `nodePort: 30001`
 
-Kalıcı veriler için volume kullanımı desteklenir.
+---
 
-postgres-pvc.yaml
-PostgreSQL için PersistentVolumeClaim tanımıdır.
+### 🛢️ 4. postgres-deployment.yaml
+- **Kind**: `Deployment`
+- Uygulama adı: `postgres`
+- Replica: `1`
+- Image: `postgres:14`
+- Açık port: `5432`
+- Ortam değişkenleri:
+  - `POSTGRES_DB=HR`
+  - `POSTGRES_USER=postgres`
+  - `POSTGRES_PASSWORD=123456`
+- Volume:
+  - Mount path: `/var/lib/postgresql/data`
+  - PVC: `postgres-pvc`
 
-Veritabanı verilerinin container yeniden başlasa dahi korunmasını sağlar.
+---
 
-postgres-service.yaml
-PostgreSQL’e iç ağda erişimi sağlar.
+### 💾 5. postgres-pvc.yaml
+- **Kind**: `PersistentVolumeClaim`
+- PVC adı: `postgres-pvc`
+- Erişim modu: `ReadWriteOnce`
+- Depolama isteği: `1Gi`
 
-Flask uygulaması bu servis ismini kullanarak veritabanına bağlanır (örneğin postgres-service.default.svc.cluster.local).
+---
+
+### 🌐 6. postgres-service.yaml
+- **Kind**: `Service`
+- Servis adı: `postgres-service`
+- Selector: `app: postgres`
+- Port yönlendirmeleri:
+  - `port: 5432`
+  - `targetPort: 5432`
+
+---
+
+### 🔄 7. auto-patch.yaml (GitHub Actions Workflow)
+
+- **Amaç**: Her `main` branch'e push sonrası otomatik olarak yeni bir Docker imajı oluşturmak ve ArgoCD ile Kubernetes’e yansıtmak.
+
+---
+
+#### 📌 Trigger
+- Yalnızca `main` branch'e yapılan push işlemlerinde tetiklenir.
+- `k8s/flask-deployment.yaml` dosyasındaki değişiklikler bu işlemden hariç tutulur (`paths-ignore`).
+
+---
+
+#### 🌍 Ortam Değişkenleri (env)
+- `IMAGE_NAME: assistanthr` → Oluşturulacak Docker imaj adı.
+- `DOCKER_REPO: gorkem03` → DockerHub kullanıcı adı.
+
+---
+
+#### 🧪 Job: patch
+
+**Ortam**: `ubuntu-latest`
+
+**Adımlar:**
+1. **Kodları Al**  
+   GitHub Actions deposundaki kodu klonlar.  
+   `actions/checkout@v3` kullanılır.
+
+2. **DockerHub'a Giriş Yap**  
+   DockerHub’a oturum açmak için `docker/login-action@v2` kullanılır.  
+   Giriş bilgileri `secrets` üzerinden alınır (`DOCKER_USERNAME`, `DOCKER_PASSWORD`).
+
+3. **Image Versiyonunu Belirle**  
+   Mevcut `patchedvX` tag’lerini sorgular:
+   - Hiç tag yoksa: `patchedv1` olarak başlatır.
+   - Varsa: `patchedv2`, `patchedv3`, ... şeklinde bir sonrakini oluşturur.
+
+---
+
+> Bu yapı, hem imaj versiyonlamasını hem de dağıtımı otomatikleştirir. CI/CD sürecinin bir parçası olarak projeyi sürekli canlı tutar.
+
+---
+
 
 ---
 
