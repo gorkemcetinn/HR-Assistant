@@ -9,9 +9,11 @@ Yapay zekâ destekli İnsan Kaynakları asistanı. HR Assistant, doğal dil işl
 Bu proje, **LangChain framework**'ü ve modern **yapay zekâ araçları** kullanılarak geliştirilmiştir. Sistem içerisinde iki adet özel agent bulunmaktadır:
 
 ### 🧠 SQL Asistanı
-- Doğal dil prompt'ları üzerinden doğrudan SQL sorguları oluşturur.
+- Doğal dil anlayışı sayesinde kullanıcıdan gelen metin komutları yorumlanır.
+- SQL kodu üretmez, bunun yerine önceden tanımlanmış güvenli LangChain Tool fonksiyonlarını çağırır.
 - Kullanıcıdan kod yazması beklenmez.
-- `LangChain tools` yapısı ile entegre çalışarak, veritabanı üzerinde işlem yapılmasını sağlar.
+- `LangChain tools` yapısı ile entegre çalışarak, veritabanı üzerinde işlem yapılmasını sağlar, prompt analizleri burada gerçekleşir.
+- Veritabanı güvenliği korunur, dış müdahalelere ve yanlış sorgulara karşı sistem izole edilmiştir.
 
 ### 📄 Döküman Asistanı
 - PDF gibi belgelerdeki metinleri çıkarır ve ChromaDB üzerine kaydeder.
