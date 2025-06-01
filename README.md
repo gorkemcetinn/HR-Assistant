@@ -219,8 +219,6 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
    - Hiç tag yoksa: `patchedv1` olarak başlatır.
    - Varsa: `patchedv2`, `patchedv3`, ... şeklinde bir sonrakini oluşturur.
 
----
-
 > Bu yapı, hem imaj versiyonlamasını hem de dağıtımı otomatikleştirir. CI/CD sürecinin bir parçası olarak projeyi sürekli canlı tutar.
 
 
