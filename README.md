@@ -223,10 +223,6 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
 
 > Bu yapı, hem imaj versiyonlamasını hem de dağıtımı otomatikleştirir. CI/CD sürecinin bir parçası olarak projeyi sürekli canlı tutar.
 
----
-
-
----
 
 ## 🧑‍💻 Geliştirici
 **Görkem [@gorkem03](https://github.com/gorkem03)**
