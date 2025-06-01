@@ -110,6 +110,37 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
 └── static/images/          # İşlenen görseller
 ```
 ---
+☸️ Kubernetes Deployment Yapılandırmaları
+Bu proje, Flask backend ve PostgreSQL veritabanı bileşenlerini kapsayan tam bir Kubernetes altyapısıyla dağıtılır. Aşağıda her YAML dosyasının işlevi açıklanmıştır:
+
+flask-deployment.yaml
+Flask tabanlı HR Assistant uygulamasını dağıtan deployment tanımıdır.
+
+Image tag’i CI/CD pipeline tarafından otomatik güncellenir.
+
+Pod replikası, kaynak sınırları gibi ayarlar burada yapılır.
+
+flask-service.yaml
+Flask uygulamasını Kubernetes servis objesi olarak dış dünyaya açar.
+
+Genellikle NodePort veya LoadBalancer tipiyle yapılandırılır.
+
+postgres-deployment.yaml
+PostgreSQL veritabanı için deployment tanımıdır.
+
+Kalıcı veriler için volume kullanımı desteklenir.
+
+postgres-pvc.yaml
+PostgreSQL için PersistentVolumeClaim tanımıdır.
+
+Veritabanı verilerinin container yeniden başlasa dahi korunmasını sağlar.
+
+postgres-service.yaml
+PostgreSQL’e iç ağda erişimi sağlar.
+
+Flask uygulaması bu servis ismini kullanarak veritabanına bağlanır (örneğin postgres-service.default.svc.cluster.local).
+
+---
 
 ## 🧑‍💻 Geliştirici
 **Görkem [@gorkem03](https://github.com/gorkem03)**
