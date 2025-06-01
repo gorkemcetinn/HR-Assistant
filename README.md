@@ -28,7 +28,7 @@ Bu proje, **LangChain framework**'ü ve modern **yapay zekâ araçları** kullan
 - 📄 **PDF/Belge Tabanlı RAG Sistemi (OCR destekli)**
 - 🧠 **Model Yönetimi (OpenRouter, Gemini, Qwen)**
 - 📈 **Belge Analizi ile Otomatik Grafik Oluşturma (Chart.js uyumlu)**
-- 🖼️ **Görsel Analizi & Eşleştirme (KimiVL + SentenceTransformer)**
+- 🖼️ **Görsel Analizi & Eşleştirme (Gemma + SentenceTransformer)**
 
 ---
 
