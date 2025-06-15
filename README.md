@@ -99,7 +99,7 @@ Docker ve ArgoCD kurulumları için `Dockerfile` ve `k8s/` dizini kullanılır.
 ├── app.py                  # Flask uygulaması giriş
 ├── main.py                 # Ana başlatıcı
 ├── llm_manager.py          # Model yöneticisi
-├── agent.py                # SQL Agent
+├── agent.py                # Agent yöneticisi
 ├── read_rag.py             # RAG sistemi
 ├── graph_agent.py          # Grafik destekli analiz
 ├── image_selector.py       # Görsel analiz
