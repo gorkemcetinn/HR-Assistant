@@ -3,7 +3,68 @@
 Yapay zekâ destekli İnsan Kaynakları asistanı. HR Assistant, doğal dil işleme (LLM), belge sorgulama (RAG), grafik analiz ve SQL veri erişimi gibi modern teknolojilerle desteklenen, Flask tabanlı modüler bir çözümdür.
 
 ---
-![a drawio](https://github.com/user-attachments/assets/104b2eb2-8efe-4fe2-a768-14517c46f64d)
+[Upload<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="27.0.6">
+  <diagram name="Sayfa -1" id="njU_2WFNKXbZqlTlwaeO">
+    <mxGraphModel dx="1042" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="xVYwRF4Wph0S5wrf_9XY-2" target="xVYwRF4Wph0S5wrf_9XY-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-2" value="Kafka Topic" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="430" y="265" width="80" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xVYwRF4Wph0S5wrf_9XY-3" target="xVYwRF4Wph0S5wrf_9XY-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-3" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-17" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="xVYwRF4Wph0S5wrf_9XY-4" target="xVYwRF4Wph0S5wrf_9XY-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-4" value="Producer.py" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-5" value="Send Order" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="xVYwRF4Wph0S5wrf_9XY-6" target="xVYwRF4Wph0S5wrf_9XY-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-6" value="strateji.py" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-7" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="110" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="xVYwRF4Wph0S5wrf_9XY-10" target="xVYwRF4Wph0S5wrf_9XY-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-10" value="BINANCE API" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="130" y="190" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-14" value="BTC PRICE" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="135" y="285" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-15" value="Get BTC Price&amp;nbsp;&lt;div&gt;Every 5 Second&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="125" y="340" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-16" value="Send To Kafka in&amp;nbsp;&lt;div&gt;0.5 Minutes&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="340" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-20" value="Fiyatlaı Analzi&amp;nbsp;&lt;div&gt;Et&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="550" y="340" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="xVYwRF4Wph0S5wrf_9XY-21" value="Binance Testnet" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="695" y="340" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+ing Başlıksız Diyagram.drawio…]()
 
 ## 📌 Proje Özeti
 
