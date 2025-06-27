@@ -3,7 +3,6 @@
 Yapay zekâ destekli İnsan Kaynakları asistanı. HR Assistant, doğal dil işleme (LLM), belge sorgulama (RAG), grafik analiz ve SQL veri erişimi gibi modern teknolojilerle desteklenen, Flask tabanlı modüler bir çözümdür.
 
 ---
-![s](https://github.com/user-attachments/assets/9b25ca84-6a73-4163-93bd-3aaa000bd0fb)
 
 ## 📌 Proje Özeti
 
