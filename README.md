@@ -69,10 +69,10 @@ graph TD;
 ## 🔧 Kurulum
 
 ```bash
-git clone https://github.com/kullanici_adi/hr-assistant.git
+git clone https://github.com/gorkemcetinn/hr-assistant.git
 cd hr-assistant
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
