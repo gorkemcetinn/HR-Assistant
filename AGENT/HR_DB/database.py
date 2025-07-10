@@ -104,7 +104,7 @@ class HRDatabase:
         # fullname, username, email, created_at oluştur
         fullname = f"{first_name} {last_name}"
         username = f"{first_name.lower()}.{last_name.lower()}"
-        email = f"{username}@igairport.aero"
+        email = f"{username}@example.com"
         created_at = datetime.now()
 
         # Kullanıcı zaten var mı kontrol et
